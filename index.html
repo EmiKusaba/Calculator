@@ -5,8 +5,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculator</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  
+  <!--screen-->
+  <div class="calc">
+    <main id="screen"></main>
+    <!--button-->
+    <section>
+      <div class="calculator-buttons">
+        <button type="button" class="calc-button is-clear" onclick="onClear()">C</button>
+        <button type="button" class="calc-button" onclick="onOperation(this.innerHTML)">/</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">7</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">8</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">9</button>
+        <button type="button" class="calc-button" onclick="onOperation(this.innerHTML)">x</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">4</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">5</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">6</button>
+        <button type="button" class="calc-button" onclick="onOperation(this.innerHTML)">-</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">1</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">2</button>
+        <button type="button" class="calc-button" onclick="onNumber(this.innerHTML)">3</button>
+        <button type="button" class="calc-button" onclick="onOperation(this.innerHTML)">+</button>
+        <button type="button" class="calc-button is-zero" onclick="onNumber(this.innerHTML)">0</button>
+        <button type="button" class="calc-button is-equal" onclick="onEquals()">=</button>
+      </div>
+    </section>
+  </div>
+  <script src="./script.js"></script>
 </body>
 </html>

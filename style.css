@@ -1,0 +1,33 @@
+.calculator-buttons{
+  /* small spacing within our container */
+  padding: 20px;
+
+  /* the grid stuff! */
+  display: grid;
+
+  /* create 4 columns */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  /* add the grid gap */
+  grid-gap: 15px;
+}
+.calc{
+  max-width: 500px;
+  height: auto;
+  border: 2px solid #111;
+  padding: 20px;
+}
+.is-zero,
+.is-clear   {
+  grid-column: span 3;
+}
+input {
+  width: 80%;
+  margin: 10px;
+}
+.screen{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr ;
+  grid-gap: 5px;
+  margin: 2%;
+}
