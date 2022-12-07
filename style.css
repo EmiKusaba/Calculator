@@ -1,21 +1,20 @@
 .calculator-buttons{
-  /* small spacing within our container */
   padding: 20px;
-
-  /* the grid stuff! */
   display: grid;
-
-  /* create 4 columns */
   grid-template-columns: 1fr 1fr 1fr 1fr;
-
-  /* add the grid gap */
   grid-gap: 15px;
+  margin-top: 30px;
+  background-color:whitesmoke;
+  border-radius: 8px;
 }
 .calc{
-  max-width: 500px;
-  height: auto;
+  width: 300px;
+  height: 300px;
   border: 2px solid #111;
+  border-radius: 8px;
   padding: 20px;
+  margin: auto;
+  background-color:grey;
 }
 .is-zero,
 .is-clear   {
@@ -25,9 +24,20 @@ input {
   width: 80%;
   margin: 10px;
 }
-.screen{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr ;
-  grid-gap: 5px;
+#screen{
+  display: flex;
+  justify-content: center;
   margin: 2%;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color:whitesmoke;
+}
+.calc-button{
+  background-color: rgb(66, 64, 64);
+  border-radius: 8px;
+  color: white;
+}
+#operation{
+  background-color: rgb(226, 117, 15);
 }
