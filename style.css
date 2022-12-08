@@ -16,10 +16,14 @@
   margin: auto;
   background-color:grey;
 }
-.is-zero,
+
 .is-clear   {
   grid-column: span 3;
 }
+.is-zero   {
+  grid-column: span 2;
+}
+
 input {
   width: 80%;
   margin: 10px;
@@ -33,11 +37,16 @@ input {
   border-radius: 8px;
   background-color:whitesmoke;
 }
+
 .calc-button{
   background-color: rgb(66, 64, 64);
   border-radius: 8px;
   color: white;
 }
-#operation{
+#operation {
+  background-color: rgb(226, 117, 15);
+}
+
+.is-equal{
   background-color: rgb(226, 117, 15);
 }

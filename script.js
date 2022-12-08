@@ -3,6 +3,7 @@ let secondNum = ""
 let isFirst = true
 let operation = ""
 
+
 const onNumber = (val) => {
   if (isFirst) {
     firstNum += val
