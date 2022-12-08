@@ -27,6 +27,7 @@ const onOperation = (val) => {
 
 const updateScreen = () => {
   document.getElementById("screen").innerHTML = firstNum + " " + operation + " " + secondNum
+  
 }
 
 const onEquals = () => {
