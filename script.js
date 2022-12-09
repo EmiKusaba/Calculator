@@ -1,17 +1,19 @@
 let firstNum = ""
 let secondNum = ""
-let isFirst = true
+let resultNum = ""
 let operation = ""
+let isError = false
 
+const isFirst = (val) => {
+  return operation === ""
+}
 
 const onNumber = (val) => {
-  if (isFirst) {
+  if (isFirst()) {
     firstNum += val
   } else {
     secondNum += val
   }
-  console.log(val)
-
   updateScreen()
 }
 
@@ -19,48 +21,87 @@ const onOperation = (val) => {
   if (firstNum === "") {
     return
   }
-  isFirst = false
+  if (secondNum !== "") {
+    // If we already have 2 numbers, and we click an operator
+    // calculate the intermediate result, store it as the first
+    // number and clear the second number
+    let result = operate()
+    if(result === null) {
+      isError = true
+    }
+    firstNum = result
+    secondNum = ""
+    updateScreen()
+    return
+  }
   operation = (val)
-  console.log(operation)
-
   updateScreen()
 }
 
 const updateScreen = () => {
-  document.getElementById("screen").innerHTML = firstNum + " " + operation + " " + secondNum
-  
+  let screen = document.getElementById("screen")
+
+  if (isError) {
+    screen.innerHTML = "ERROR"
+    return
+  }
+
+  if (resultNum !== "") {
+    screen.innerHTML = resultNum
+    return
+  }
+
+  screen.innerHTML = secondNum === "" ? firstNum : secondNum
 }
 
 const onEquals = () => {
-  if (firstNum === "" || secondNum === "" || operation === "") {
-    return screen
+  let result = operate()
+  if (result === null) {
+    isError = true
+  } else {
+    resultNum = result
   }
-  let screen = document.getElementById("screen")
+  updateScreen()
+}
+
+const add = (a, b) => {
+  return a + b
+}
+
+const subtract = (a, b) => {
+  return a - b
+}
+
+const multiply = (a, b) => {
+  return a * b
+}
+
+const divide = (a, b) => {
+  return a / b
+}
+
+const operate = () => {
+  if (firstNum === "" || secondNum === "" || operation === "") {
+    return null
+  }
   const firstNumInt = parseInt(firstNum)
   const secondNumInt = parseInt(secondNum)
   switch (operation) {
     case "+":
-      screen.innerHTML = firstNumInt + secondNumInt
-      break
+      return add(firstNumInt, secondNumInt)
     case "-":
-      screen.innerHTML = firstNumInt - secondNumInt
-      break
+      return subtract(firstNumInt, secondNumInt)
     case "x":
-      screen.innerHTML = firstNumInt * secondNumInt
-      break
+      return multiply(firstNumInt, secondNumInt)
     case "/":
-      screen.innerHTML = firstNumInt / secondNumInt
-      break
-    default:
-      "Choose an operation"
-      break
+      return divide(firstNumInt, secondNumInt)
   }
+  return null
 }
 
 const onClear = () => {
   firstNum = ""
   secondNum = ""
-  isFirst = true
   operation = ""
   updateScreen()
 }
