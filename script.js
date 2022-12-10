@@ -123,7 +123,7 @@ document.addEventListener('keyup', e => {
     onNumber(value);
   } else if (/[-+/*]/.test(value)) {
     onOperation(value);
-  } else if (value === "=" || value === "Enter") {
+  } else if (value === "=") {
     onEquals();
   }
 })
