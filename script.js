@@ -121,7 +121,7 @@ const onClear = () => {
   updateScreen()
 }
 
-document.addEventListener('keyup', e => {
+document.addEventListener("keyup", e => {
   let value = e.key;
   if (/[0-9\.]/.test(value)) {
     onNumber(value);
