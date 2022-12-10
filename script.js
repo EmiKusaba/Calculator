@@ -9,6 +9,12 @@ const isFirst = (val) => {
 }
 
 const onNumber = (val) => {
+  if (val === "0" || val === ".") {
+    // Cannot start with 0 or .
+    if ((isFirst() ? firstNum : secondNum) === "") {
+      return
+    }
+  }
   if (isFirst()) {
     firstNum += val
   } else {
@@ -19,6 +25,10 @@ const onNumber = (val) => {
 
 const onOperation = (val) => {
   if (firstNum === "") {
+    if (val === "-") {
+      firstNum += val
+      updateScreen()
+    }
     return
   }
   if (secondNum !== "") {
@@ -26,13 +36,17 @@ const onOperation = (val) => {
     // calculate the intermediate result, store it as the first
     // number and clear the second number
     let result = operate()
-    if(result === null) {
+    if (result === null) {
       isError = true
     }
     firstNum = result
     secondNum = ""
     updateScreen()
     return
+  }
+  if (resultNum !== "") {
+    // We're continuing after pressing equals
+    resultNum = ""
   }
   operation = (val)
   updateScreen()
@@ -60,6 +74,10 @@ const onEquals = () => {
     isError = true
   } else {
     resultNum = result
+    // So that we can continue operating on this result
+    firstNum = resultNum
+    secondNum = ""
+    operation = ""
   }
   updateScreen()
 }
@@ -84,8 +102,8 @@ const operate = () => {
   if (firstNum === "" || secondNum === "" || operation === "") {
     return null
   }
-  const firstNumInt = parseInt(firstNum)
-  const secondNumInt = parseInt(secondNum)
+  const firstNumInt = parseFloat(firstNum)
+  const secondNumInt = parseFloat(secondNum)
   switch (operation) {
     case "+":
       return add(firstNumInt, secondNumInt)
@@ -102,6 +120,8 @@ const operate = () => {
 const onClear = () => {
   firstNum = ""
   secondNum = ""
+  resultNum = ""
   operation = ""
+  isError = false
   updateScreen()
 }
