@@ -125,3 +125,10 @@ const onClear = () => {
   isError = false
   updateScreen()
 }
+
+document.addEventListener('keyup', e => {
+  let value = e.key;
+  if (/[0-9\.]/.test(value)) onNumber(value);
+  else if (/[-+/*]/.test(value)) onOperation(value);
+  else if (value === "=") onEquals();
+})
