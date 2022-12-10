@@ -1,84 +1,63 @@
-let firstNum = ""
-let secondNum = ""
-let resultNum = ""
-let operation = ""
-let isError = false
+let state = {
+  firstNum: "",
+  secondNum: "",
+  operation: "",
+  isError: false
+}
 
-const isFirst = (val) => {
-  return operation === ""
+const isFirst = () => {
+  return state.operation === ""
 }
 
 const onNumber = (val) => {
+  // console.log(val)
   if (val === "0" || val === ".") {
     // Cannot start with 0 or .
-    if ((isFirst() ? firstNum : secondNum) === "") {
+    if ((isFirst() ? state.firstNum : state.secondNum) === "") {
       return
     }
   }
   if (isFirst()) {
-    firstNum += val
+    state.firstNum += val
   } else {
-    secondNum += val
+    state.secondNum += val
   }
   updateScreen()
 }
 
 const onOperation = (val) => {
-  if (firstNum === "") {
+  // console.log(val)
+  if (state.firstNum === "") {
     if (val === "-") {
-      firstNum += val
+      state.firstNum += val
       updateScreen()
     }
     return
   }
-  if (secondNum !== "") {
+  if (state.secondNum !== "") {
     // If we already have 2 numbers, and we click an operator
     // calculate the intermediate result, store it as the first
     // number and clear the second number
-    let result = operate()
-    if (result === null) {
-      isError = true
-    }
-    firstNum = result
-    secondNum = ""
-    updateScreen()
-    return
+    operate()
   }
-  if (resultNum !== "") {
-    // We're continuing after pressing equals
-    resultNum = ""
-  }
-  operation = (val)
+  state.operation = (val)
   updateScreen()
 }
 
 const updateScreen = () => {
+  // console.log(state)
   let screen = document.getElementById("screen")
 
-  if (isError) {
+  if (state.isError) {
     screen.innerHTML = "ERROR"
     return
   }
 
-  if (resultNum !== "") {
-    screen.innerHTML = resultNum
-    return
-  }
-
-  screen.innerHTML = secondNum === "" ? firstNum : secondNum
+  screen.innerHTML = state.secondNum === "" ? state.firstNum : state.secondNum
 }
 
 const onEquals = () => {
-  let result = operate()
-  if (result === null) {
-    isError = true
-  } else {
-    resultNum = result
-    // So that we can continue operating on this result
-    firstNum = resultNum
-    secondNum = ""
-    operation = ""
-  }
+  operate()
   updateScreen()
 }
 
@@ -99,36 +78,52 @@ const divide = (a, b) => {
 }
 
 const operate = () => {
-  if (firstNum === "" || secondNum === "" || operation === "") {
-    return null
+  if (state.firstNum === "" || state.secondNum === "" || state.operation === "") {
+    state.isError = true
+    return
   }
-  const firstNumInt = parseFloat(firstNum)
-  const secondNumInt = parseFloat(secondNum)
-  switch (operation) {
+  const firstNumParsed = parseFloat(state.firstNum)
+  const secondNumParsed = parseFloat(state.secondNum)
+  let result = null
+  switch (state.operation) {
     case "+":
-      return add(firstNumInt, secondNumInt)
+      result = add(firstNumParsed, secondNumParsed)
+      break
     case "-":
-      return subtract(firstNumInt, secondNumInt)
+      result = subtract(firstNumParsed, secondNumParsed)
+      break
     case "x":
-      return multiply(firstNumInt, secondNumInt)
+      result = multiply(firstNumParsed, secondNumParsed)
+      break
     case "/":
-      return divide(firstNumInt, secondNumInt)
+      result = divide(firstNumParsed, secondNumParsed)
+      break
   }
-  return null
+  if (result === null) {
+    state.isError = true
+  } else {
+    state.firstNum = result
+    state.secondNum = ""
+    state.operation = ""
+  }
 }
 
 const onClear = () => {
-  firstNum = ""
-  secondNum = ""
-  resultNum = ""
-  operation = ""
-  isError = false
+  state.firstNum = ""
+  state.secondNum = ""
+  state.resultNum = ""
+  state.operation = ""
+  state.isError = false
   updateScreen()
 }
 
 document.addEventListener('keyup', e => {
   let value = e.key;
-  if (/[0-9\.]/.test(value)) onNumber(value);
-  else if (/[-+/*]/.test(value)) onOperation(value);
-  else if (value === "=") onEquals();
+  if (/[0-9\.]/.test(value)) {
+    onNumber(value);
+  } else if (/[-+/*]/.test(value)) {
+    onOperation(value);
+  } else if (value === "=" || value === "Enter") {
+    onEquals();
+  }
 })
