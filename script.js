@@ -10,7 +10,7 @@ const isFirst = () => {
 }
 
 const onNumber = (val) => {
-  // console.log(val)
+  console.log(val)
   if (val === "0" || val === ".") {
     // Cannot start with 0 or .
     if ((isFirst() ? state.firstNum : state.secondNum) === "") {
@@ -26,7 +26,7 @@ const onNumber = (val) => {
 }
 
 const onOperation = (val) => {
-  // console.log(val)
+  console.log(val)
   if (state.firstNum === "") {
     if (val === "-") {
       state.firstNum += val
@@ -45,7 +45,7 @@ const onOperation = (val) => {
 }
 
 const updateScreen = () => {
-  // console.log(state)
+  console.log(state)
   let screen = document.getElementById("screen")
 
   if (state.isError) {
@@ -57,6 +57,7 @@ const updateScreen = () => {
 }
 
 const onEquals = () => {
+  console.log("=")
   operate()
   updateScreen()
 }
@@ -82,10 +83,11 @@ const operate = () => {
     state.isError = true
     return
   }
+  const operation = state.operation
   const firstNumParsed = parseFloat(state.firstNum)
   const secondNumParsed = parseFloat(state.secondNum)
   let result = null
-  switch (state.operation) {
+  switch (operation) {
     case "+":
       result = add(firstNumParsed, secondNumParsed)
       break
@@ -93,6 +95,7 @@ const operate = () => {
       result = subtract(firstNumParsed, secondNumParsed)
       break
     case "x":
+    case "*":
       result = multiply(firstNumParsed, secondNumParsed)
       break
     case "/":
@@ -106,6 +109,7 @@ const operate = () => {
     state.secondNum = ""
     state.operation = ""
   }
+  console.log(`operate() first=${firstNumParsed} second=${secondNumParsed} oper=${operation} result=${result}`)
 }
 
 const onClear = () => {
@@ -121,7 +125,7 @@ document.addEventListener('keyup', e => {
   let value = e.key;
   if (/[0-9\.]/.test(value)) {
     onNumber(value);
-  } else if (/[-+/*]/.test(value)) {
+  } else if (/[-+/*x]/.test(value)) {
     onOperation(value);
   } else if (value === "=") {
     onEquals();
